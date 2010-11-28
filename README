@@ -1,0 +1,16 @@
+This is a short experiment to connect BART's estimated arrivals feed
+(http://www.bart.gov/schedules/developers/etas.aspx) to a Twilio-run phone
+number via SMS.
+
+Twilio sends the body of each SMS as a postvar, "Body", but it's also possible
+to use the URL parameter "q" for testing, e.g.:
+
+    http://teczno.com/SMS2BART4ETA/?q=powell
+    http://teczno.com/SMS2BART4ETA/?q=19th
+    http://teczno.com/SMS2BART4ETA/?q=dub
+
+Try queries that match parts of station names, such as characteristic words
+or beginnings of words.
+
+For the moment, I've connected this service to the phone number (510) 692-9295.
+Feel free to use it though it costs me four shiny pennies when you do. =)
