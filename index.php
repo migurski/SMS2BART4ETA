@@ -25,9 +25,10 @@
                 $station_match = true;
             
             foreach($words as $search_word)
-                foreach($station['words'] as $station_word)
-                    if(substr($station_word, 0, strlen($search_word)) == $search_word)
-                        $station_match = true;
+                if($search_word)
+                    foreach($station['words'] as $station_word)
+                        if(substr($station_word, 0, strlen($search_word)) == $search_word)
+                            $station_match = true;
             
             switch(true)
             {
@@ -90,6 +91,7 @@
     }
 
     $q = isset($_POST['Body']) ? $_POST['Body'] : $_GET['q'];
+    $q = preg_replace('/[^\w\s]+/', ' ', $q);
     
     $station = estimates($q);
     $lines = array();
