@@ -31,20 +31,23 @@
             
             switch(true)
             {
+                // airport code for SF airport
                 case strtoupper($search) == 'SFO' && $station['name'] == "San Francisco Int'l Airport":
-                    // airport code for SF airport
+                
+                // airport code for Oakland airport
+                case strtoupper($search) == 'OAK' && $station['name'] == 'Coliseum/Oakland Airport':
+                
+                // just searching for "berkeley" should match Downtown Berkeley
+                case in_array(strtolower($search), array('berk', 'berkeley')) && $station['name'] == 'Downtown Berkeley':
+                
+                // does it seem more likely that someone would mean the SF airport over the Oakland one?
+                case strtolower($search) == 'airport' && $station['name'] == "San Francisco Int'l Airport":
+
+                // just searching for "downtown" should match downtown SF
+                case strtolower($search) == 'downtown' && $station['name'] == 'Montgomery St.':
+
                     $special_case = 1;
                     $station_match = true;
-                    break;
-                
-                case strtoupper($search) == 'OAK' && $station['name'] == 'Coliseum/Oakland Airport':
-                    // airport code for Oakland airport
-                    $special_case = 1;
-                    break;
-                
-                case in_array(strtolower($search), array('berk', 'berkeley')) && $station['name'] == 'Downtown Berkeley':
-                    // just searching for "berkeley" should match Downtown Berkeley
-                    $special_case = 1;
                     break;
                 
                 default:
