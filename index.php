@@ -12,6 +12,7 @@
         
         $words = preg_split('#[/\s\.]+#', strtolower($search));
         
+        $special_cases = array();
         $lev_distances = array();
         $station_matches = array();
         
@@ -28,15 +29,39 @@
                     if(substr($station_word, 0, strlen($search_word)) == $search_word)
                         $station_match = true;
             
+            switch(true)
+            {
+                case strtoupper($search) == 'SFO' && $station['name'] == "San Francisco Int'l Airport":
+                    // airport code for SF airport
+                    $special_case = 1;
+                    $station_match = true;
+                    break;
+                
+                case strtoupper($search) == 'OAK' && $station['name'] == 'Coliseum/Oakland Airport':
+                    // airport code for Oakland airport
+                    $special_case = 1;
+                    break;
+                
+                case in_array(strtolower($search), array('berk', 'berkeley')) && $station['name'] == 'Downtown Berkeley':
+                    // just searching for "berkeley" should match Downtown Berkeley
+                    $special_case = 1;
+                    break;
+                
+                default:
+                    $special_case = 0;
+                    break;
+            }
+            
             if($station_match)
             {
                 $station_matches[] = $station;
                 $lev_distances[] = levenshtein($search, $station['name']);
+                $special_cases[] = $special_case;
             }
         }
         
         // sort possible matches
-        array_multisort($lev_distances, $station_matches);
+        array_multisort($special_cases, SORT_DESC, $lev_distances, $station_matches);
         
         return count($station_matches) ? $station_matches[0] : null;
     }
